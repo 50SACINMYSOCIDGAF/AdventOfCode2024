@@ -3,6 +3,7 @@ use std::fs;
 
 mod solutions {
     pub mod s01;
+    pub mod so2;
 }
 
 fn main() {
