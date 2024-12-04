@@ -1,6 +1,12 @@
 // src/solutions/s02.rs
 pub fn solve(input: &str) -> i64 {
-    count_safe_reports(input)
+    solve_both(input).1
+}
+
+pub fn solve_both(input: &str) -> (i64, i64) {
+    let part1 = count_safe_reports(input, false);
+    let part2 = count_safe_reports(input, true);
+    (part1, part2)
 }
 
 fn is_safe_sequence(nums: &[i64]) -> bool {
@@ -29,7 +35,7 @@ fn is_safe_sequence(nums: &[i64]) -> bool {
     true
 }
 
-fn is_safe_with_dampener(line: &str) -> bool {
+fn is_safe_with_dampener(line: &str, use_dampener: bool) -> bool {
     // Convert string numbers to integers
     let nums: Vec<i64> = line.split_whitespace()
         .filter_map(|x| x.parse().ok())
@@ -38,6 +44,11 @@ fn is_safe_with_dampener(line: &str) -> bool {
     // First check if safe without removing any level
     if is_safe_sequence(&nums) {
         return true;
+    }
+
+    // If not using dampener and we got here, it's not safe
+    if !use_dampener {
+        return false;
     }
 
     // Try removing each level one at a time
@@ -52,10 +63,10 @@ fn is_safe_with_dampener(line: &str) -> bool {
     false
 }
 
-fn count_safe_reports(input: &str) -> i64 {
+fn count_safe_reports(input: &str, use_dampener: bool) -> i64 {
     input.lines()
         .filter(|line| !line.trim().is_empty())
-        .filter(|line| is_safe_with_dampener(line))
+        .filter(|line| is_safe_with_dampener(line, use_dampener))
         .count() as i64
 }
 
@@ -71,6 +82,8 @@ mod tests {
                         1 3 2 4 5\n\
                         8 6 4 4 1\n\
                         1 3 6 7 9";
-        assert_eq!(count_safe_reports(test_data), 4);
+        let (part1, part2) = solve_both(test_data);
+        assert_eq!(part1, 2);
+        assert_eq!(part2, 4);
     }
 }
