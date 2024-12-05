@@ -6,6 +6,7 @@ mod solutions {
     pub mod s02;
     pub mod s03;
     pub mod s04;
+    pub mod s05;
     // Future days will be added here
 }
 
@@ -54,6 +55,11 @@ fn run_day(day: u8) -> Result<(), String> {
         },
         4 => {
             let (part1, part2) = solutions::s04::solve_both(&input);
+            println!("Part 1: {}", part1);
+            println!("Part 2: {}", part2);
+        },
+        5 => {
+            let (part1, part2) = solutions::s05::solve_both(&input);
             println!("Part 1: {}", part1);
             println!("Part 2: {}", part2);
         },
